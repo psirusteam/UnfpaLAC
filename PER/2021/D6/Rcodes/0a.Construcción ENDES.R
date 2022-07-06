@@ -58,7 +58,6 @@ RECH1 = read.spss("PER/2021/D6/Data/Módulos/760-Modulo1629/RECH1.SAV",to.data.f
 RECH4 = read.spss("PER/2021/D6/Data/Módulos/760-Modulo1629/RECH4.SAV",to.data.frame = TRUE)
 RECHM = read.spss("PER/2021/D6/Data/Módulos/760-Modulo1629/RECHM.sav",to.data.frame = TRUE)
 
-
 # Modulo 1630
 
 RECH23 = read.spss("PER/2021/D6/Data/Módulos/760-Modulo1630/RECH23.SAV",to.data.frame = TRUE)

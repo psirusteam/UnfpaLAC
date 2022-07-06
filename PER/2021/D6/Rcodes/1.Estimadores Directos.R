@@ -49,14 +49,21 @@ gc()
 ##                                    Cargando Insumos
 ######################################################################################################################################################
 
-EndesMEF = readRDS("PER/2021/D6/Output/ENDESMEF.rds")
+EndesMEF = readRDS("PER/2021/D6/Output/EndesMEF.rds")
 
 ######################################################################################################################################################
 
 sum(is.na(EndesMEF$DS))
-ENDESMEF = EndesMEF
-EndesMEF$d7 = ifelse(EndesMEF$usamoderno==1&(EndesMEF$Falla_met==1|
-                                               EndesMEF$Nec_sat_pf_T==1),1,0)
+#ENDESMEF = EndesMEF
+
+#### Creando Dummys para cada Indicador de Interés
+
+
+EndesMEF$D6  <- ifelse(EndesMEF$usametodo    == 1,1,0)
+EndesMEF$D6m <- ifelse(EndesMEF$usamoderno   == 1,1,0)
+EndesMEF$NI  <- ifelse(EndesMEF$Nec_ins_pf_T == 1,1,0)
+EndesMEF$D7  <- ifelse(EndesMEF$usamoderno   == 1 &(EndesMEF$Falla_met==1|
+                                                          EndesMEF$Nec_sat_pf_T==1),1,0)
 EndesMEF = EndesMEF %>% filter(EdadQ!="12-14")
 EndesMEF$EdadQ = as.factor(as.character(EndesMEF$EdadQ))
 levels(EndesMEF$EdadQ)
@@ -84,34 +91,27 @@ yflag = 100
 ## Nivel Nacional ##
 ####################
 
-D6_dom1_ = design.base %>% #group_by(dominio) %>%
+D6_Nacional = design.base %>% #group_by(dominio) %>%
   summarise(n = unweighted(n()),
             D6 = survey_mean(usametodo,
                              vartype = c("cv")))
 
-D6_dom1_
+D6_Nacional
 
-D6modernos_dom1 = design.base %>% #group_by(dominio) %>%
+D6_Modernos_Nacional = design.base %>% #group_by(dominio) %>%
   summarise(n = unweighted(n()),
             D6 = survey_mean(usamoderno,
                              vartype = c("cv")))
 
-D6modernos_dom1
+D6_Modernos_Nacional
 
-NI_dom = design.base %>% #group_by(dominio) %>%
+NI_Nacional = design.base %>% #group_by(dominio) %>%
   summarise(n = unweighted(n()),
             NI = survey_mean(Nec_ins_pf_T %in% c(1,2)))
-NI_dom
+NI_Nacional
 
 
-NI_dom1 = design.base %>% #group_by(dominio) %>%
-  summarise(n = unweighted(n()),
-            NI = survey_mean(Nec_ins_pf_T))
-
-NI_dom1
-
-
-D7_dom = design.base %>% filter(ec.casado== 1 | ec.conviviente == 1 ) %>%
+D7_Nacional = design.base %>% filter(ec.casado== 1 | ec.conviviente == 1 ) %>%
   #group_by(dominio) %>%
   summarise(n = unweighted(n()),
             p = survey_ratio(usamoderno,usametodo+Nec_ins_pf_T,
@@ -119,11 +119,7 @@ D7_dom = design.base %>% filter(ec.casado== 1 | ec.conviviente == 1 ) %>%
                              proportion = TRUE, 
                              na.rm = TRUE))
 
-D7_dom
-
-
-EndesMEF$d7 = ifelse(EndesMEF$usamoderno==1&(EndesMEF$Falla_met==1|
-                                               EndesMEF$Nec_sat_pf_T==1),1,0)
+D7_Nacional
 
 
 ####################################### Desagregaciones #######################
@@ -141,7 +137,7 @@ D6_area = design.base %>% group_by(Area) %>%
 D6_area <- as.data.frame(D6_area)
 D6_area
 
-openxlsx::write.xlsx(D6_area, file = "PER/2021/D6/Output/Peru_D6_area.xlsx")
+openxlsx::write.xlsx(D6_area, file = "PER/2021/D6/Output/Tablas/D6_area.xlsx")
 
 
 ## Métodos Moderno D6m
@@ -154,7 +150,7 @@ D6modernos_area = design.base %>% group_by(Area) %>%
 D6modernos_area <- as.data.frame(D6modernos_area)
 D6modernos_area
 
-openxlsx::write.xlsx(D6modernos_area, file = "PER/2021/D6/Output/Peru_D6_Modernos_area.xlsx")
+openxlsx::write.xlsx(D6modernos_area, file = "PER/2021/D6/Output/Tablas/D6_Modernos_area.xlsx")
 
 
 
@@ -168,7 +164,7 @@ NI_area = design.base %>% group_by(Area) %>%
 NI_area <- as.data.frame(NI_area)
 NI_area
 
-openxlsx::write.xlsx(NI_area, file = "PER/2021/D6/Output/Peru_NI_area.xlsx")
+openxlsx::write.xlsx(NI_area, file = "PER/2021/D6/Output/Tablas/NI_area.xlsx")
 
 
 ## Indicador D7
@@ -184,7 +180,7 @@ D7_area = design.base %>% filter(ec.casado== 1 | ec.conviviente == 1 ) %>%
 D7_area <- as.data.frame(D7_area)
 D7_area
 
-openxlsx::write.xlsx(D7_area, file = "PER/2021/D6/Output/Peru_D7_area.xlsx")
+openxlsx::write.xlsx(D7_area, file = "PER/2021/D6/Output/Tablas/D7_area.xlsx")
 
 
 
@@ -202,7 +198,7 @@ D6_depto = design.base %>% group_by(Departamento) %>%
 D6_depto <- as.data.frame(D6_depto)
 D6_depto
 
-openxlsx::write.xlsx(D6_depto, file = "PER/2021/D6/Output/Peru_D6_depto.xlsx")
+openxlsx::write.xlsx(D6_depto, file = "PER/2021/D6/Output/Tablas/D6_depto.xlsx")
 
 
 ## Métodos Moderno D6m
@@ -215,7 +211,7 @@ D6modernos_depto = design.base %>% group_by(Departamento) %>%
 D6modernos_depto <- as.data.frame(D6modernos_depto)
 D6modernos_depto
 
-openxlsx::write.xlsx(D6modernos_depto, file = "PER/2021/D6/Output/Peru_D6modernos_depto.xlsx")
+openxlsx::write.xlsx(D6modernos_depto, file = "PER/2021/D6/Output/Tablas/D6_modernos_depto.xlsx")
 
 
 
@@ -229,7 +225,7 @@ NI_depto = design.base %>% group_by(Departamento) %>%
 NI_depto <- as.data.frame(NI_depto)
 NI_depto
 
-openxlsx::write.xlsx(NI_depto, file = "PER/2021/D6/Output/Peru_NI_depto.xlsx")
+openxlsx::write.xlsx(NI_depto, file = "PER/2021/D6/Output/Tablas/NI_depto.xlsx")
 
 
 ## Indicador D7
@@ -245,7 +241,7 @@ D7_depto = design.base %>% filter(ec.casado== 1 | ec.conviviente == 1 ) %>%
 D7_depto <- as.data.frame(D7_depto)
 D7_depto
 
-openxlsx::write.xlsx(D7_depto, file = "PER/2021/D6/Output/Peru_D7_depto.xlsx")
+openxlsx::write.xlsx(D7_depto, file = "PER/2021/D6/Output/Tablas/D7_depto.xlsx")
 
 
 ##############################################################
@@ -262,7 +258,7 @@ D6_edad = design.base %>% group_by(EdadQ) %>%
 D6_edad <- as.data.frame(D6_edad)
 D6_edad
 
-openxlsx::write.xlsx(D6_edad, file = "PER/2021/D6/Output/Peru_D6_edad.xlsx")
+openxlsx::write.xlsx(D6_edad, file = "PER/2021/D6/Output/Tablas/D6_edad.xlsx")
 
 
 ## Métodos Moderno D6m
@@ -275,7 +271,7 @@ D6modernos_edad = design.base %>% group_by(EdadQ) %>%
 D6modernos_edad <- as.data.frame(D6modernos_edad)
 D6modernos_edad
 
-openxlsx::write.xlsx(D6modernos_edad, file = "PER/2021/D6/Output/Peru_D6modernos_edad.xlsx")
+openxlsx::write.xlsx(D6modernos_edad, file = "PER/2021/D6/Output/Tablas/D6_modernos_edad.xlsx")
 
 ## Necesidades Insatisfechas NI
 
@@ -287,7 +283,7 @@ NI_edad = design.base %>% group_by(EdadQ) %>%
 NI_edad <- as.data.frame(NI_edad)
 NI_edad
 
-openxlsx::write.xlsx(NI_edad, file = "PER/2021/D6/Output/Peru_NI_edad.xlsx")
+openxlsx::write.xlsx(NI_edad, file = "PER/2021/D6/Output/Tablas/NI_edad.xlsx")
 
 
 ## Indicador D7
@@ -303,7 +299,7 @@ D7_edad = design.base %>% filter(ec.casado== 1 | ec.conviviente == 1 ) %>%
 D7_edad <- as.data.frame(D7_edad)
 D7_edad
 
-openxlsx::write.xlsx(D7_edad, file = "PER/2021/D6/Output/Peru_D7_edad.xlsx")
+openxlsx::write.xlsx(D7_edad, file = "PER/2021/D6/Output/Tablas/D7_edad.xlsx")
 
 
 ##############################################################
@@ -320,7 +316,7 @@ D6_etnia = design.base %>% group_by(etnia) %>%
 D6_etnia <- as.data.frame(D6_etnia)
 D6_etnia
 
-openxlsx::write.xlsx(D6_etnia, file = "PER/2021/D6/Output/Peru_D6_etnia.xlsx")
+openxlsx::write.xlsx(D6_etnia, file = "PER/2021/D6/Output/Tablas/D6_etnia.xlsx")
 
 
 ## Métodos Moderno D6m
@@ -333,7 +329,7 @@ D6modernos_etnia = design.base %>% group_by(etnia) %>%
 D6modernos_etnia <- as.data.frame(D6modernos_etnia)
 D6modernos_etnia
 
-openxlsx::write.xlsx(D6modernos_etnia, file = "PER/2021/D6/Output/Peru_D6modernos_etnia.xlsx")
+openxlsx::write.xlsx(D6modernos_etnia, file = "PER/2021/D6/Output/Tablas/D6_modernos_etnia.xlsx")
 
 ## Necesidades Insatisfechas NI
 
@@ -345,7 +341,7 @@ NI_etnia = design.base %>% group_by(etnia) %>%
 NI_etnia <- as.data.frame(NI_etnia)
 NI_etnia
 
-openxlsx::write.xlsx(NI_etnia, file = "PER/2021/D6/Output/Peru_NI_etnia.xlsx")
+openxlsx::write.xlsx(NI_etnia, file = "PER/2021/D6/Output/Tablas/NI_etnia.xlsx")
 
 
 ## Indicador D7
@@ -361,7 +357,7 @@ D7_etnia = design.base %>% filter(ec.casado== 1 | ec.conviviente == 1 ) %>%
 D7_etnia <- as.data.frame(D7_etnia)
 D7_etnia
 
-openxlsx::write.xlsx(D7_etnia, file = "PER/2021/D6/Output/Peru_D7_etnia.xlsx")
+openxlsx::write.xlsx(D7_etnia, file = "PER/2021/D6/Output/Tablas/D7_etnia.xlsx")
 
 
 
@@ -381,7 +377,7 @@ D6_pvcia = design.base %>% group_by(Provincia) %>%
 D6_pvcia <- as.data.frame(D6_pvcia)
 D6_pvcia
 
-openxlsx::write.xlsx(D6_pvcia, file = "PER/2021/D6/Output/Peru_D6_pvcia.xlsx")
+openxlsx::write.xlsx(D6_pvcia, file = "PER/2021/D6/Output/Tablas/D6_provincia.xlsx")
 
 
 ## Métodos Moderno D6m
@@ -394,7 +390,7 @@ D6modernos_pvcia = design.base %>% group_by(Provincia) %>%
 D6modernos_pvcia <- as.data.frame(D6modernos_pvcia)
 D6modernos_pvcia
 
-openxlsx::write.xlsx(D6modernos_pvcia, file = "PER/2021/D6/Output/Peru_D6modernos_pvcia.xlsx")
+openxlsx::write.xlsx(D6modernos_pvcia, file = "PER/2021/D6/Output/Tablas/D6_modernos_provincia.xlsx")
 
 
 
@@ -408,7 +404,7 @@ NI_pvcia = design.base %>% group_by(Provincia) %>%
 NI_pvcia <- as.data.frame(NI_pvcia)
 NI_pvcia
 
-openxlsx::write.xlsx(NI_pvcia, file = "PER/2021/D6/Output/Peru_NI_pvcia.xlsx")
+openxlsx::write.xlsx(NI_pvcia, file = "PER/2021/D6/Output/Tablas/NI_provincia.xlsx")
 
 
 ## Indicador D7
@@ -425,7 +421,7 @@ D7_pvcia = design.base %>% filter(ec.casado== 1 | ec.conviviente == 1 ) %>%
 D7_pvcia <- as.data.frame(D7_pvcia)
 D7_pvcia
 
-openxlsx::write.xlsx(D7_pvcia, file = "PER/2021/D6/Output/Peru_D7_pvcia.xlsx")
+openxlsx::write.xlsx(D7_pvcia, file = "PER/2021/D6/Output/Tablas/D7_provincia.xlsx")
 
 
 ###############################################################
@@ -442,7 +438,7 @@ D6_area_escol = design.base %>% group_by(Area, nivel.educ) %>%
 D6_area_escol <- as.data.frame(D6_area_escol)
 D6_area_escol
 
-openxlsx::write.xlsx(D6_area_escol, file = "PER/2021/D6/Output/Peru_D6_area_escol.xlsx")
+openxlsx::write.xlsx(D6_area_escol, file = "PER/2021/D6/Output/Tablas/D6_area_escol.xlsx")
 
 
 ## Métodos Moderno D6m
@@ -455,7 +451,7 @@ D6modernos_area_escol = design.base %>% group_by(Area, nivel.educ) %>%
 D6modernos_area_escol <- as.data.frame(D6modernos_area_escol)
 D6modernos_area_escol
 
-openxlsx::write.xlsx(D6modernos_area_escol, file = "PER/2021/D6/Output/Peru_D6modernos_area_escol.xlsx")
+openxlsx::write.xlsx(D6modernos_area_escol, file = "PER/2021/D6/Output/Tablas/D6_modernos_area_escol.xlsx")
 
 
 
@@ -469,7 +465,7 @@ NI_area_escol = design.base %>% group_by(Area, nivel.educ) %>%
 NI_area_escol <- as.data.frame(NI_area_escol)
 NI_area_escol
 
-openxlsx::write.xlsx(NI_area_escol, file = "PER/2021/D6/Output/Peru_NI_area_escol.xlsx")
+openxlsx::write.xlsx(NI_area_escol, file = "PER/2021/D6/Output/Tablas/NI_area_escol.xlsx")
 
 
 ## Indicador D7
@@ -485,7 +481,7 @@ D7_area_escol = design.base %>% filter(ec.casado== 1 | ec.conviviente == 1 )%>%
 D7_area_escol <- as.data.frame(D7_area_escol)
 D7_area_escol
 
-openxlsx::write.xlsx(D7_area_escol, file = "PER/2021/D6/Output/Peru_D7_area_escol.xlsx")
+openxlsx::write.xlsx(D7_area_escol, file = "PER/2021/D6/Output/Tablas/D7_area_escol.xlsx")
 
 ##############################################################
 
@@ -502,7 +498,7 @@ D6_depto_edad = design.base %>% group_by(Departamento, EdadQ) %>%
 D6_depto_edad <- as.data.frame(D6_depto_edad)
 D6_depto_edad
 
-openxlsx::write.xlsx(D6_depto_edad, file = "PER/2021/D6/Output/Peru_D6_depto_edad.xlsx")
+openxlsx::write.xlsx(D6_depto_edad, file = "PER/2021/D6/Output/Tablas/D6_depto_edad.xlsx")
 
 
 ## Métodos Moderno D6m
@@ -515,7 +511,7 @@ D6modernos_depto_edad = design.base %>% group_by(Departamento, EdadQ) %>%
 D6modernos_depto_edad <- as.data.frame(D6modernos_depto_edad)
 D6modernos_depto_edad
 
-openxlsx::write.xlsx(D6modernos_depto_edad, file = "PER/2021/D6/Output/Peru_D6modernos_depto_edad.xlsx")
+openxlsx::write.xlsx(D6modernos_depto_edad, file = "PER/2021/D6/Output/Tablas/D6_modernos_depto_edad.xlsx")
 
 
 
@@ -529,7 +525,7 @@ NI_depto_edad = design.base %>% group_by(Departamento, EdadQ) %>%
 NI_depto_edad <- as.data.frame(NI_depto_edad)
 NI_depto_edad
 
-openxlsx::write.xlsx(NI_depto_edad, file = "PER/2021/D6/Output/Peru_NI_depto_edad.xlsx")
+openxlsx::write.xlsx(NI_depto_edad, file = "PER/2021/D6/Output/Tablas/NI_depto_edad.xlsx")
 
 
 ## Indicador D7
@@ -545,21 +541,13 @@ D7_depto_edad = design.base %>% filter(ec.casado== 1 | ec.conviviente == 1 ) %>%
 D7_depto_edad <- as.data.frame(D7_depto_edad)
 D7_depto_edad
 
-openxlsx::write.xlsx(D7_depto_edad, file = "PER/2021/D6/Output/Peru_D7_depto_edad.xlsx")
+openxlsx::write.xlsx(D7_depto_edad, file = "PER/2021/D6/Output/Tablas/D7_depto_edad.xlsx")
 
 
 ########################################################################
 
 
 
-#####################################################################
-#####################################################################
-#####################################################################
-#####################################################################
-#####################################################################
-#####################################################################
-#####################################################################
-#####################################################################
 #####################################################################
 #####################################################################
 #####################################################################
@@ -605,7 +593,7 @@ TablaD6N <- cbind(Tabla, D6nacional) %>%
   mutate(flag = ifelse(CV > cvflag | n < nflag | n.eff < nefflag | grados < dfflag | y < yflag | CVl > cvflag, 
                        "*", ""))
 
-saveRDS(TablaD6N,"Tablas/D6nacional.rds")
+saveRDS(TablaD6N,"PER/2021/D6/Output/Tablas/D6nacional_Subp.rds")
 
 
 ## Todas las mujeres - modernos
@@ -649,7 +637,7 @@ TablaD6N <- cbind(Tabla, D6nacional.corte) %>%
   mutate(flag = ifelse(CV > cvflag | n < nflag | n.eff < nefflag | grados < dfflag | y < yflag | CVl > cvflag, 
                        "*", ""))
 
-saveRDS(TablaD6N,"Tablas/D6Mnacional.rds")
+saveRDS(TablaD6N,"PER/2021/D6/Output/Tablas/D6M_Nacional_Subp.rds")
 
 ## Sexualmente activas no unidas - todos los metodos
 
@@ -692,7 +680,7 @@ TablaD6N <- cbind(Tabla, D6nacional.sa) %>%
   mutate(flag = ifelse(CV > cvflag | n < nflag | n.eff < nefflag | grados < dfflag | y < yflag | CVl > cvflag, 
                        "*", ""))
 ## se considera mujeres sexualmente activas no unidas
-saveRDS(TablaD6N,"Tablas/D6nacionalSANU.rds")
+saveRDS(TablaD6N,"PER/2021/D6/Output/Tablas/D6_Nacional_SANU.rds")
 
 ## Sexualmente activas no unidas - modernos
 
@@ -735,7 +723,7 @@ TablaD6N <- cbind(Tabla, D6nacional.sa) %>%
   mutate(flag = ifelse(CV > cvflag | n < nflag | n.eff < nefflag | grados < dfflag | y < yflag | CVl > cvflag, 
                        "*", ""))
 ## se considera mujeres sexualmente activas no unidas
-saveRDS(TablaD6N,"Tablas/D6MnacionalSANU.rds")
+saveRDS(TablaD6N,"PER/2021/D6/Output/Tablas/D6M_nacionalSANU.rds")
 
 ## Unidas - todos los metodos
 
@@ -777,7 +765,7 @@ TablaD6N <- cbind(Tabla, D6nacional.U) %>%
   select(Subpoblacion, p, LI, LS, ee, CV, deff, n, n.eff, grados, y, CVl) %>%
   mutate(flag = ifelse(CV > cvflag | n < nflag | n.eff < nefflag | grados < dfflag | y < yflag | CVl > cvflag, 
                        "*", ""))
-saveRDS(TablaD6N,"Tablas/D6nacionalU.rds")
+saveRDS(TablaD6N,"PER/2021/D6/Output/Tablas/D6_nacional_U.rds")
 
 ## Unidas - modernos
 
@@ -820,7 +808,7 @@ TablaD6N <- cbind(Tabla, D6nacional.U) %>%
   mutate(flag = ifelse(CV > cvflag | n < nflag | n.eff < nefflag | grados < dfflag | y < yflag | CVl > cvflag, 
                        "*", ""))
 
-saveRDS(TablaD6N,"Tablas/D6MnacionalU.rds")
+saveRDS(TablaD6N,"PER/2021/D6/Output/Tablas/D6Mnacional_U.rds")
 
 ## Sexualmente activas - todos los metodos
 
@@ -863,7 +851,7 @@ TablaD6N <- cbind(Tabla, D6nacional.sa) %>%
   mutate(flag = ifelse(CV > cvflag | n < nflag | n.eff < nefflag | grados < dfflag | y < yflag | CVl > cvflag, 
                        "*", ""))
 
-saveRDS(TablaD6N,"Tablas/D6nacionalSA.rds")
+saveRDS(TablaD6N,"PER/2021/D6/Output/Tablas/D6nacional_SA.rds")
 
 ## Sexualmente activas  - modernos
 
@@ -906,7 +894,7 @@ TablaD6N <- cbind(Tabla, D6nacional.sa) %>%
   mutate(flag = ifelse(CV > cvflag | n < nflag | n.eff < nefflag | grados < dfflag | y < yflag | CVl > cvflag, 
                        "*", ""))
 
-saveRDS(TablaD6N,"Tablas/D6MnacionalSA.rds")
+saveRDS(TablaD6N,"PER/2021/D6/Output/Tablas/D6Mnacional_SA.rds")
 
 
 ###################
@@ -955,7 +943,7 @@ TablaD6N <- cbind(Tabla, D6area) %>%
   mutate(flag = ifelse(CV > cvflag | n < nflag | n.eff < nefflag | grados < dfflag | y < yflag | CVl > cvflag, 
                        "*", ""))
 
-saveRDS(TablaD6N,"Tablas/D6area.rds")
+saveRDS(TablaD6N,"PER/2021/D6/Output/Tablas/D6_area_subp.rds")
 
 #### Todas las mujeres - metodos modernos
 
@@ -998,7 +986,7 @@ TablaD6N <- cbind(Tabla, D6area) %>%
   mutate(flag = ifelse(CV > cvflag | n < nflag | n.eff < nefflag | grados < dfflag | y < yflag | CVl > cvflag, 
                        "*", ""))
 
-saveRDS(TablaD6N,"Tablas/D6Marea.rds")
+saveRDS(TablaD6N,"PER/2021/D6/Output/Tablas/D6M_area_subp.rds")
 
 #### Unidas - Todos los metodos
 
@@ -1041,7 +1029,7 @@ TablaD6N <- cbind(Tabla, D6area) %>%
   mutate(flag = ifelse(CV > cvflag | n < nflag | n.eff < nefflag | grados < dfflag | y < yflag | CVl > cvflag, 
                        "*", ""))
 
-saveRDS(TablaD6N,"Tablas/D6areaU.rds")
+saveRDS(TablaD6N,"PER/2021/D6/Output/Tablas/D6area_U.rds")
 
 #### Unidas - metodo moderno
 
@@ -1084,7 +1072,7 @@ TablaD6N <- cbind(Tabla, D6area) %>%
   mutate(flag = ifelse(CV > cvflag | n < nflag | n.eff < nefflag | grados < dfflag | y < yflag | CVl > cvflag, 
                        "*", ""))
 
-saveRDS(TablaD6N,"Tablas/D6MareaU.rds")
+saveRDS(TablaD6N,"PER/2021/D6/Output/Tablas/D6M_area_U.rds")
 
 #### Sexualmente activas no unidas - Todos los metodos
 
@@ -1127,7 +1115,7 @@ TablaD6N <- cbind(Tabla, D6area) %>%
   mutate(flag = ifelse(CV > cvflag | n < nflag | n.eff < nefflag | grados < dfflag | y < yflag | CVl > cvflag, 
                        "*", ""))
 
-saveRDS(TablaD6N,"Tablas/D6areaSANU.rds")
+saveRDS(TablaD6N,"PER/2021/D6/Output/Tablas/D6_area_SANU.rds")
 
 #### Sexualmente activas no unidas - metodos modernos
 

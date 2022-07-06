@@ -62,7 +62,6 @@ gc()
 ##                                    Definiendo rutas de entradas y salidas
 ########################################################################################################################
 
-setwd("C:/Users/Gabriel Nieto/Dropbox/Encuestas de Hogares/Guatemala")
 dir()
 
 ###########################################################################################################################
@@ -71,8 +70,9 @@ dir()
 ##                                    Cargando Insumos
 ######################################################################################################################################################
 
-load("data_Guatemala.RData")
+load("GTM/2014-2015/D6/Data/data_Guatemala.RData")
 Ensmi = data_Guatemala 
+rm(data_Guatemala)
 
 ##################################################################################################################################################
 
@@ -157,11 +157,26 @@ table(as.numeric(Ensmi$V626))
 Ensmi$DS = ifelse(as.numeric(Ensmi$V626)%in%c(4,5,6,7),1,
                   ifelse(as.numeric(Ensmi$V626)%in%c(2,3),0,NA))
 
+######### Creando Dummys para cada indicador
+
+
+### D6
+
+Ensmi$D6 = ifelse(Ensmi$usametodo==1,1,0)
+
+
+### D6m
+
+Ensmi$D6m = ifelse(Ensmi$usamoderno==1,1,0)
+
+### NI
+
+Ensmi$NI = ifelse(Ensmi$Nec_sat_pf_T==1,1,0)
 
 ######D7
-Ensmi$d7 = ifelse(Ensmi$usamoderno==1&(Ensmi$Falla_met==1|
+Ensmi$D7 = ifelse(Ensmi$usamoderno==1&(Ensmi$Falla_met==1|
                                          Ensmi$Nec_sat_pf_T==1),1,0)
-table(Ensmi$d7)
+
 
 ##############################################
 ## Variables para el calculo de indicadores ##

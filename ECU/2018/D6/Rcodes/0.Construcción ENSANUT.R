@@ -50,7 +50,6 @@ gc()
 ##                                    Definiendo rutas de entradas y salidas
 ########################################################################################################################
 
-setwd("C:/Users/Gabriel Nieto/Dropbox/Encuestas de Hogares/Ecuador/DATOS_ENSANUT_2018")
 dir()
 
 ###########################################################################################################################
@@ -63,15 +62,15 @@ dir()
 ###### 
 # Modulos
 
-load("ecu_personas.RData")
-load("ecu_hogar.RData")
-load("ecu_etiqueta.RData")
-load("ecu_mujeres.RData")
-load("ecu_lactancia.RData")
-load("ecu_salud_niñez.RData")
-load("ecu_hombres.RData")
-load("ecu_fact_riesgo.RData")
-load("ecu_info_niñez.RData")
+load("ECU/2018/D6/Data/ecu_personas.RData")
+load("ECU/2018/D6/Data/ecu_hogar.RData")
+load("ECU/2018/D6/Data/ecu_etiqueta.RData")
+load("ECU/2018/D6/Data/ecu_mujeres.RData")
+load("ECU/2018/D6/Data/ecu_lactancia.RData")
+load("ECU/2018/D6/Data/ecu_salud_niñez.RData")
+load("ECU/2018/D6/Data/ecu_hombres.RData")
+load("ECU/2018/D6/Data/ecu_fact_riesgo.RData")
+load("ECU/2018/D6/Data/ecu_info_niñez.RData")
 
 #############################################
 
@@ -619,6 +618,21 @@ ENSANUT$ec.conviviente = ifelse(ENSANUT$f2_s9_900 == "unión de hecho?",1,
                                 ifelse(ENSANUT$f2_s9_900 == "unión libre?",1,0))
 
 
+
+######## Creando Dummys para cada Indicador
+
+## D6
+ENSANUT$D6 <- ifelse(ENSANUT$usametodo == 1, 1,0)
+
+## D6m
+ENSANUT$D6m <- ifelse(ENSANUT$usamoderno == 1, 1,0)
+
+## NI
+ENSANUT$NI <- ifelse(ENSANUT$Nec_insatis == 1, 1,0)
+
+## D7
+ENSANUT$D7 = ifelse(ENSANUT$usamoderno==1&(ENSANUT$Var_fallamet==1|
+                                             ENSANUT$Nec_satisf==1),1,0)
 
 
 ####### Salvando Base de datos

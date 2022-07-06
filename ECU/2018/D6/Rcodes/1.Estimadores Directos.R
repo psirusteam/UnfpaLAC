@@ -54,7 +54,7 @@ ENSANUT = readRDS("ECU/2018/D6/Output/ENSANUT.rds")
 ######################################################################################################################################################
 
 
-ENSANUT$d7 = ifelse(ENSANUT$usamoderno==1&(ENSANUT$Var_fallamet==1|
+ENSANUT$D7 = ifelse(ENSANUT$usamoderno==1&(ENSANUT$Var_fallamet==1|
                                              ENSANUT$Nec_satisf==1),1,0)
 ENSANUT = ENSANUT %>% filter(EdadQ!="12-14")
 ENSANUT$EdadQ = as.factor(as.character(ENSANUT$EdadQ))
