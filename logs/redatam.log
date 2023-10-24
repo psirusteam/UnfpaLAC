@@ -1,68 +1,10 @@
-[17:37:38] [red_engine] [info] intitializing libxml
-[17:37:38] [red_engine] [info] intitializing error-table
-[17:37:38] [red_engine] [info] intitializing msg-table
-[17:37:38] [red_engine] [info] registering arrow dataset
-[17:37:38] [red_engine] [info] registering cspro datasource
-[17:37:38] [red_engine] [info] intitializing sdc RR4 processor
-[17:37:38] [red_engine] [info] intitializing plugins
-[17:37:38] [red_engine] [debug] Loading plugins from directory [plugins]
-[17:37:38] [red_engine] [info] intitializing pwd-provide
-[17:37:38] [red_engine] [info] intitializing openssl
-[17:45:23] [red_engine] [debug] STATP initializing
-[17:45:23] [red_engine] [debug] STATP run
-[17:48:09] [red_engine] [debug] STATP postProcess
-[17:48:09] [red_engine] [debug] [$table1] post process
-[17:48:09] [red_engine] [debug] [$table1] create dataset
-[17:48:09] [red_engine] [debug] [$table1] add field [PROVIN]
-[17:48:09] [red_engine] [debug] [$table1] add field label [PROVIN]
-[17:48:09] [red_engine] [debug] [$table1] add field mask [PROVIN]
-[17:48:09] [red_engine] [debug] [$table1] add field [UR]
-[17:48:09] [red_engine] [debug] [$table1] add field label [UR]
-[17:48:09] [red_engine] [debug] [$table1] add field mask [UR]
-[17:48:09] [red_engine] [debug] [$table1] add field [P01]
-[17:48:09] [red_engine] [debug] [$table1] add field label [P01]
-[17:48:09] [red_engine] [debug] [$table1] add field mask [P01]
-[17:48:09] [red_engine] [debug] [$table1] add field [P03]
-[17:48:09] [red_engine] [debug] [$table1] add field label [P03]
-[17:48:09] [red_engine] [debug] [$table1] add field mask [P03]
-[17:48:09] [red_engine] [debug] [$table1] add field [P16]
-[17:48:09] [red_engine] [debug] [$table1] add field label [P16]
-[17:48:09] [red_engine] [debug] [$table1] add field mask [P16]
-[17:48:09] [red_engine] [debug] [$table1] add field [GRAESC]
-[17:48:09] [red_engine] [debug] [$table1] add field label [GRAESC]
-[17:48:09] [red_engine] [debug] [$table1] add field mask [GRAESC]
-[17:48:09] [red_engine] [debug] [$table1] add field [DISCAP]
-[17:48:09] [red_engine] [debug] [$table1] add field label [DISCAP]
-[17:48:09] [red_engine] [debug] [$table1] add field mask [DISCAP]
-[17:48:09] [red_engine] [debug] [$table1] add field value
-[17:48:49] [red_engine] [debug] STATP end run
-[18:10:44] [red_engine] [debug] STATP initializing
-[18:10:44] [red_engine] [debug] STATP run
-[18:13:38] [red_engine] [debug] STATP postProcess
-[18:13:38] [red_engine] [debug] [$table1] post process
-[18:13:38] [red_engine] [debug] [$table1] create dataset
-[18:13:38] [red_engine] [debug] [$table1] add field [PROVIN]
-[18:13:38] [red_engine] [debug] [$table1] add field label [PROVIN]
-[18:13:38] [red_engine] [debug] [$table1] add field mask [PROVIN]
-[18:13:38] [red_engine] [debug] [$table1] add field [UR]
-[18:13:38] [red_engine] [debug] [$table1] add field label [UR]
-[18:13:38] [red_engine] [debug] [$table1] add field mask [UR]
-[18:13:38] [red_engine] [debug] [$table1] add field [P01]
-[18:13:38] [red_engine] [debug] [$table1] add field label [P01]
-[18:13:38] [red_engine] [debug] [$table1] add field mask [P01]
-[18:13:38] [red_engine] [debug] [$table1] add field [P03]
-[18:13:38] [red_engine] [debug] [$table1] add field label [P03]
-[18:13:38] [red_engine] [debug] [$table1] add field mask [P03]
-[18:13:38] [red_engine] [debug] [$table1] add field [P16]
-[18:13:38] [red_engine] [debug] [$table1] add field label [P16]
-[18:13:38] [red_engine] [debug] [$table1] add field mask [P16]
-[18:13:38] [red_engine] [debug] [$table1] add field [GRAESC]
-[18:13:38] [red_engine] [debug] [$table1] add field label [GRAESC]
-[18:13:38] [red_engine] [debug] [$table1] add field mask [GRAESC]
-[18:13:38] [red_engine] [debug] [$table1] add field [DISCAP]
-[18:13:38] [red_engine] [debug] [$table1] add field label [DISCAP]
-[18:13:38] [red_engine] [debug] [$table1] add field mask [DISCAP]
-[18:13:38] [red_engine] [debug] [$table1] add field value
-[18:14:16] [red_engine] [debug] STATP end run
-[18:25:36] [red_engine] [debug] STATP initializing
-[18:25:36] [red_engine] [debug] STATP run
+[10:29:21] [red_engine] [info] intitializing libxml
+[10:29:21] [red_engine] [info] intitializing error-table
+[10:29:21] [red_engine] [info] intitializing msg-table
+[10:29:21] [red_engine] [info] registering arrow dataset
+[10:29:21] [red_engine] [info] registering cspro datasource
+[10:29:21] [red_engine] [info] intitializing sdc RR4 processor
+[10:29:21] [red_engine] [info] intitializing plugins
+[10:29:21] [red_engine] [debug] Loading plugins from directory [plugins]
+[10:29:21] [red_engine] [info] intitializing pwd-provide
+[10:29:21] [red_engine] [info] intitializing openssl
