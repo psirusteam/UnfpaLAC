@@ -2,3 +2,19 @@
 .Rhistory
 .RData
 .Ruserdata
+*.docx
+
+COL/2015/1.D6/Data/Modulos/COBR72DT/COBR72FL.DTA
+COL/2015/1.D6/Data/Modulos/COHR72DT/COHR72FL.DTA
+COL/2015/1.D6/Data/Modulos/COIR71FL.DTA
+COL/2015/1.D6/Data/Modulos/COIR72DT/COIR72FL.DTA
+ECU/2018/Metadatos/Data/1_BDD_ENS2018_f1_personas.dta
+ECU/2018/Metadatos/DATOS_ENSANUT_2018/1_BDD_ENS2018_f1_personas.csv
+GTM/2014-2015/1.D6/Data/doc/Modulos/GUIR71DT/GUIR71FL.DTA
+GTM/2014-2015/1.D6/Data/doc/Modulos2/GUIR71SV/GUIR71FL.SAV
+GTM/2014-2015/1.D6/Data/Modulos/GUIR71DT/GUIR71FL.DTA
+MEX/2018/1.D6/Data/Mujer_2018_R.sav
+MEX/2018/metadatos/TMujer1.sav
+MEX/2018/metadatos/TSdem.sav
+PER/2019/Informe Nacional/ENDES 2018.pdf
+PER/2020/Informe Nacional/ENDES 2019.pdf
